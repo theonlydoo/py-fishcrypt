@@ -10,7 +10,8 @@ About
 
 Installation
 ============
-1. Put [fishcrypt.py](https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py) into HexChat addons folder:
+1. Make sure [Python 2.x] (https://www.python.org/downloads/release/python-279/) (>=2.5) is installed
+2. Put [fishcrypt.py](https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py) into HexChat addons folder:
   * Linux/OS X: ``~/.config/hexchat/addons/``
   * Windows: ``%APPDATA%\HexChat\addons\``
 2. Start HexChat
