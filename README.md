@@ -1,7 +1,7 @@
 
 About
 =====
-FiSH/Mircryption clone for X-Chat in 100% Python
+FiSH/Mircryption clone for XChat/HexChat in 100% Python
 
 Installation
 ============
