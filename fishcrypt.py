@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# FiSH/Mircryption clone for HexChat in 100% Python
+# FiSH/Mircryption clone for XChat/HexChat in 100% Python
 #
 # Requirements: PyCrypto, and Python 2 (>=2.5)
 #
@@ -10,14 +10,14 @@
 #
 # rewritten by trubo/segfault for irc.prooops.eu #py-fishcrypt trubo00@gmail.com
 #
-# fixed for HexChat by fladd <fladd@fladd.de>
+# fixes by fladd <fladd@fladd.de>
 #
 # irccrypt module is copyright 2009 Bjorn Edstrom ( http://www.bjrn.se/ircsrp )
 # with modification from Nam T. Nguyen and trubo
 #
 # Changelog:
 #   * 5.00
-#      + Fixed HexChat compatibility in key exchange and added FiSHLiM unload (fladd)
+#      + Fixed compatibility for networks with identify-msg (e.g. freenode) in key exchange and added FiSHLiM unload (fladd)
 #
 #   * 4.21
 #      + Fixed Empty Action /me
@@ -807,13 +807,13 @@ class XChatCrypt:
             return xchat.EAT_NONE
 
         ## check if DH Key Exchange
-        if 'DH1080_FINISH' in word_eol[3]:
+        if word[3].startswith(":") and word[3].endswith('DH1080_FINISH'):
             return self.dh1080_finish(word, word_eol, userdata)
-        elif 'DH1080_INIT' in word_eol[3]:
+        elif word[3].startswith(":") and word[3].endswith('DH1080_INIT'):
             return self.dh1080_init(word, word_eol, userdata)
 
         ## check for encrypted Notice
-        elif word_eol[3].startswith('::+OK ') or word_eol[3].startswith('::mcps '):
+        elif word[3].startswith(':') and (word[3].endswith(':+OK') or word[3].startswith(':mcps')):
             
             ## rewrite data to pass to default inMessage function
             ## change full ident to nick only
@@ -821,7 +821,11 @@ class XChatCrypt:
             target = word[2]
             speaker = nick
             ## strip :: from message
-            message = word_eol[3][2:]
+            if word[3].endswith("+OK"):
+                idx = len(word[3]) - len("+OK")
+            elif word[3].endswith("mcps"):
+                idx = len(word[3]) - len("mcps")
+            message = word_eol[3][idx:]
             if target.startswith("#"):
                 id = self.get_id()
                 speaker = "## %s" % speaker
@@ -1036,7 +1040,6 @@ class XChatCrypt:
 
     ## the outgoing messages will be proccesed herre
     def outMessage(self,word, word_eol, userdata,force=False,command=False):
-        
         ## check if allready processed
         if self.__chk_proc():
             return xchat.EAT_NONE
@@ -1072,7 +1075,6 @@ class XChatCrypt:
                 return xchat.EAT_NONE
             else:
                 message = word_eol[0]
-
         sendmsg = ''
         ## try to get a key for the target id
         key = self.find_key(id)
@@ -1109,7 +1111,6 @@ class XChatCrypt:
             nick = "%s %s" % ("°"*(1+key.cbc_mode),nick)
 
         #print "DEBUG(outMsg2): %r %r %r %r" % (command,message,nick,target)
-
         for sendmsg in sendmessages:
             ## lock the target
             self.__lock_proc(True)
@@ -1379,7 +1380,7 @@ class XChatCrypt:
     def dh1080_init(self,word, word_eol, userdata):
         id = self.get_id(nick=self.get_nick(word[0]))
         target,network = id
-        message = word_eol[3]
+        message = word_eol[3].lstrip(":+")
         key = self.find_key(id,create=SecretKey(None,protectmode=self.config['DEFAULTPROTECT'],cbcmode=self.config['DEFAULTCBC']))
         ## Protection against a new key if "/PROTECTKEY" is on for nick
         if key.protect_mode:
@@ -1396,13 +1397,13 @@ class XChatCrypt:
         try:
             if word[5] == "CBC":
                 print "mIRC CBC KeyExchange detected."
-                message = "%s %s" % (word[3],word[4])
+                message = "%s %s" % (word[3].lstrip(":+"),word[4])
                 mirc_mode = True
         except IndexError:
             pass
 
         dh = DH1080Ctx()
-        dh1080_unpack(message[1 : ], dh)
+        dh1080_unpack(message, dh)
         key.key = dh1080_secret(dh)
         key.keyname = id
 
@@ -1426,14 +1427,14 @@ class XChatCrypt:
     ## Answer from targets init
     def dh1080_finish(self,word, word_eol, userdata):
         id = self.get_id(nick=self.get_nick(word[0]))
-        message = word_eol[3]
+        message = word_eol[3].lstrip(":+")
         target,network = id
         ## fixme if not explicit send to the Target the received key is discarded - chan exchange 
         if id not in self.__KeyMap:
             print "Invalid DH1080 Received from %s on %s" % (target,network)
             return xchat.EAT_NONE
         key = self.__KeyMap[id]
-        dh1080_unpack(message[1 : ], key.dh)
+        dh1080_unpack(message, key.dh)
         key.key = dh1080_secret(key.dh)
         key.keyname = id
         print "DH1080 Finish: %s on %s" % (target,network)
@@ -1511,7 +1512,7 @@ class XChatCrypt:
         return xchat.EAT_ALL
 
 
-    ## activate/deaktivate encryption für chan/nick
+    ## activate/deactivate encryption for chan/nick
     def set_act(self,word, word_eol, userdata):
         ## if two parameter first is target second is mode on/off
         if len(word) >2:
@@ -1548,8 +1549,16 @@ class XChatCrypt:
         if self.__chk_proc():
             return xchat.EAT_NONE
         server, cmd, nick, channel, topic = word[0], word[1], word[2], word[3], word_eol[4]
+        
+        if word[4].endswith("+OK"):
+            idx = len(word[4]) - len("+OK")
+            topic = word_eol[4][idx:]
+        elif word[4].endswith("mcps"):
+            idx = len(word[4]) - len("mcps")
+            topic = word_eol[4][idx:]
+
         ## check if topic is crypted
-        if not topic.startswith(':+OK ') and not topic.startswith(':mcps '):
+        if not topic.startswith('+OK ') and not topic.startswith('mcps '):
             return xchat.EAT_NONE
         id = self.get_id(nick=channel)
         ## look for a key
@@ -1558,7 +1567,7 @@ class XChatCrypt:
         if not key.key:
             return xchat.EAT_NONE
         ## decrypt
-        topic = self.decrypt(key, topic[1:])
+        topic = self.decrypt(key, topic)
         ##todo utf8 check for illegal chars
         if not topic:
             return xchat.EAT_NONE
