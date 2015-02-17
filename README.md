@@ -1,9 +1,7 @@
 
-FiSH/Mircryption clone for X-Chat in 100% Python
-================================================
-
 About
 =====
+FiSH/Mircryption clone for X-Chat in 100% Python
 
 Installation
 ============
