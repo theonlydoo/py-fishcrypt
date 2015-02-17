@@ -14,6 +14,31 @@ Installation
 Usage
 =====
 
+Commands
+--------
+SETKEY          set a new key for a nick or channel /SETKEY <nick>/#chan [new_key]
+KEYX            exchange a new pub key, /KEYX <nick>
+KEY             list key of a nick or channel or all (\*), /KEY [nick/#chan/\*]
+DELKEY          remove key, /DELKEY <nick>/#chan/*
+
+ME+             send crypted CTCP ACTION
+MSG+            send crypted msg regardless of /ENCRYPT setting
+NOTICE+         send crypted notice regardless of /ENCRYPT setting
+
+CBCMODE         set or shows cbc mode for (current) channel/nick , /CBCMODE [<nick>] <0|1>
+PROTECTKEY      sets or shows key protection mode for (current) nick, /PROTECTKEY [<nick>] <0|1>
+ENCRYPT         set or shows encryption on for (current) channel/nick , /ENCRYPT [<nick>] <0|1>
+PRNCRYPT        print msg encrpyted localy , /PRNCRYPT <msg>
+PRNDECRYPT      print msg decrpyted localy , /PRNDECRYPT <msg>
+DBPASS          set/change the passphrase for the Key Storage
+DBLOAD          loads the Key Storage
+
+SET fishcrypt   show additional fishcrypt settings
+SET <SETTING>   set additional fishcrypt setting <SETTING>
+
+HELP fishcrypt  show fishcrypt help
+FISHUPDATE      Update fishcript
+
 Licence
 =======
 
