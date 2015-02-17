@@ -5,7 +5,7 @@ FiSH/Mircryption clone for HexChat in 100% Python
 
 Installation
 ============
-1. Put [fishcrypt.py](https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py) into addons folder:
+1. Put [fishcrypt.py](https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py) into HexChat addons folder:
   * Linux/OS X: ``~/.config/hexchat/addons/``
   * Windows: ``%APPDATA%\HexChat\addons\``
 2. Start HexChat
