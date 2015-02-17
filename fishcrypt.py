@@ -1,19 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# FiSH/Mircryption clone for X-Chat in 100% Python
+# FiSH/Mircryption clone for XChat/HexChat in 100% Python
 #
-# Requirements: PyCrypto, and Python 2.5+
+# Requirements: PyCrypto, and Python 2 (>=2.5)
 #
 # Copyright 2011 Nam T. Nguyen ( http://www.vithon.org/forum/Thread/show/54 )
 # Released under the BSD license
 #
 # rewritten by trubo/segfault for irc.prooops.eu #py-fishcrypt trubo00@gmail.com
 #
+# fixed for HexChat by fladd <fladd@fladd.de>
+#
 # irccrypt module is copyright 2009 Bjorn Edstrom ( http://www.bjrn.se/ircsrp )
 # with modification from Nam T. Nguyen and trubo
 #
 # Changelog:
+#   * 5.00
+#      + Fixed HexChat compatibility in key exchange and added FiSHLiM unload (fladd)
+#
 #   * 4.21
 #      + Fixed Empty Action /me
 
@@ -185,7 +190,7 @@
 
 
 __module_name__ = 'fishcrypt'
-__module_version__ = '4.21'
+__module_version__ = '5.00'
 __module_description__ = 'fish encryption in pure python'
 
 ISBETA = ""
@@ -264,6 +269,11 @@ except ImportError:
         print "or type \002/FISHSETUP\002 for automatic install of that"
 
         REQUIRESETUP = True
+
+try:
+    xchat.command("UNLOAD FiSHLiM")
+except:
+    pass
 
 try:
     from Crypto.Util.strxor import strxor as xorstring
@@ -797,9 +807,9 @@ class XChatCrypt:
             return xchat.EAT_NONE
 
         ## check if DH Key Exchange
-        if word_eol[3].startswith(':DH1080_FINISH'):
+        if 'DH1080_FINISH' in word_eol[3]:
             return self.dh1080_finish(word, word_eol, userdata)
-        elif word_eol[3].startswith(':DH1080_INIT'):
+        elif 'DH1080_INIT' in word_eol[3]:
             return self.dh1080_init(word, word_eol, userdata)
 
         ## check for encrypted Notice
@@ -1914,13 +1924,13 @@ def dh1080_pack(ctx):
 
 def dh1080_unpack(msg, ctx):
     """."""
-    if not msg.startswith("DH1080_"):
+    if not "DH1080_" in msg:
         raise ValueError
 
     invalidmsg = "Key does not validate per RFC 2631. This check is not performed by any DH1080 implementation, so we use the key anyway. See RFC 2785 for more details."
 
     if ctx.state == 0:
-        if not msg.startswith("DH1080_INIT "):
+        if not "DH1080_INIT " in msg:
             raise MalformedError
         ctx.state = 1
         try:
@@ -1939,7 +1949,7 @@ def dh1080_unpack(msg, ctx):
             raise MalformedError
 
     elif ctx.state == 1:
-        if not msg.startswith("DH1080_FINISH "):
+        if not "DH1080_FINISH " in msg:
             raise MalformedError
         ctx.state = 1
         try:
