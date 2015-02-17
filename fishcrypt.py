@@ -197,7 +197,7 @@ ISBETA = ""
 
 UPDATEURL = 'https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py'
 BETAUPDATEURL = 'https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py'
-PYBLOWFISHURL = "http://pastebin.com/raw.php?i=nkExr9zu"
+PYBLOWFISHURL = "https://raw.githubusercontent.com/fladd/py-fishcrypt/master/pyBlowfish.py"
 SOCKSIPYURL = 'http://socksipy-branch.googlecode.com/svn/trunk/socks.py'
 
 ONMODES = ["Y","y","j","J","1","yes","on","ON","Yes","True","true"]
