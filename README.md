@@ -16,6 +16,7 @@ Usage
 
 Commands
 --------
+```
 SETKEY          set a new key for a nick or channel /SETKEY <nick>/#chan [new_key]
 KEYX            exchange a new pub key, /KEYX <nick>
 KEY             list key of a nick or channel or all (\*), /KEY [nick/#chan/\*]
@@ -38,6 +39,7 @@ SET <SETTING>   set additional fishcrypt setting <SETTING>
 
 HELP fishcrypt  show fishcrypt help
 FISHUPDATE      Update fishcript
+```
 
 Licence
 =======
