@@ -1,7 +1,7 @@
 
 About
 =====
-FiSH/Mircryption clone for HexChat in 100% Python
+**FiSH/Mircryption clone for HexChat in 100% Python**
 
 * Encrypt/decrypt private conversations
 * Encrypt/decrypt channel conversations
