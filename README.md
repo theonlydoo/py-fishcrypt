@@ -3,6 +3,11 @@ About
 =====
 FiSH/Mircryption clone for HexChat in 100% Python
 
+* Encrypt/decrypt private conversations
+* Encrypt/decrypt channel conversations
+* Choose between EBC and CBC
+* Automatic DH key exchange (private conversations only)
+
 Installation
 ============
 1. Put [fishcrypt.py](https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py) into HexChat addons folder:
