@@ -16,7 +16,7 @@ Installation
 2. Start HexChat
 3. Issue the command: ``/FISHSETUP``
 
-*FiSHLim will be disabled when fishcrypt.py is loaded!*
+*FiSHLim will be onloaded when fishcrypt.py is loaded!*
 
 Usage
 =====
