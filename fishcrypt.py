@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# FiSH/Mircryption clone for XChat/HexChat in 100% Python
+# FiSH/Mircryption clone for HexChat in 100% Python
 #
 # Requirements: PyCrypto, and Python 2 (>=2.5)
 #
