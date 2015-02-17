@@ -17,7 +17,7 @@
 #
 # Changelog:
 #   * 5.00
-#      + Fixed compatibility for networks with identify-msg (e.g. freenode) in key exchange and added FiSHLiM unload (fladd)
+#      + Fixed compatibility for networks with identify-msg (e.g. freenode) in key exchange; added FiSHLiM unload (fladd)
 #
 #   * 4.21
 #      + Fixed Empty Action /me
