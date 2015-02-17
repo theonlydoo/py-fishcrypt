@@ -195,8 +195,8 @@ __module_description__ = 'fish encryption in pure python'
 
 ISBETA = ""
 
-UPDATEURL = 'http://pastebin.com/raw.php?i=ZWGAhvix'
-BETAUPDATEURL = 'http://pastebin.com/raw.php?i=MFUhcYA2'
+UPDATEURL = 'https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py'
+BETAUPDATEURL = 'https://raw.githubusercontent.com/fladd/py-fishcrypt/master/fishcrypt.py'
 PYBLOWFISHURL = "http://pastebin.com/raw.php?i=nkExr9zu"
 SOCKSIPYURL = 'http://socksipy-branch.googlecode.com/svn/trunk/socks.py'
 
