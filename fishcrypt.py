@@ -973,6 +973,10 @@ class XChatCrypt:
 
             ## if decryption was possible check for invalid chars
             if sndmessage:
+                action = False
+                if sndmessage.startswith("\001ACTION"):
+                    sndmessage = sndmessage.lstrip("\001ACTION")
+                    action = True
                 try:
                     message = sndmessage.decode("UTF8").encode("UTF8")
                     ## mark nick for encrypted msgg
@@ -994,7 +998,10 @@ class XChatCrypt:
             else:
                 failcol = "\003"
             ## mark the message with \003, it failed to be processed and there for the \003+OK  will no longer be excepted as encrypted so it wont loop
-            self.emit_print(userdata,speaker,"%s%s" % (failcol,message))
+            if action:
+                self.emit_print('Channel Action',  speaker, message.strip())
+            else:
+                self.emit_print(userdata,speaker,"%s%s" % (failcol,message))
             return xchat.EAT_ALL
 
         return xchat.EAT_NONE
@@ -1101,6 +1108,8 @@ class XChatCrypt:
             ## encrypt message
             maxlen = self.config['MAXMESSAGELENGTH']
             cutmsg = message
+            if action:
+                cutmsg = "\001ACTION %s\001" % cutmsg
             messages = []
             sendmessages = []
             while len(cutmsg) >0:
@@ -1115,8 +1124,6 @@ class XChatCrypt:
             ## lock the target
             self.__lock_proc(True)
             ## send the command (PRIVMSG / NOTICE)
-            if action:
-                sendmsg = "\001ACTION %s\001" % sendmsg
             xchat.command('%s %s :%s' % (command,target, sendmsg))
             ## release the lock
             self.__lock_proc(False)
@@ -1125,7 +1132,7 @@ class XChatCrypt:
             ## if it is no notice it must be send plaintext to xchat for you
             if command == "PRIVMSG":
                 if action:
-                    self.emit_print('Channel Action',  nick, message)
+                    self.emit_print('Channel Action',  nick, message.lstrip("\001ACTION\001").strip())
                 else:
                     targetTab= xchat.find_context(channel=target)
                     if not targetTab and targetTab != xchat.get_context():
