@@ -4,6 +4,15 @@ FiSH/Mircryption clone for X-Chat in 100% Python
 
 Requirements: PyCrypto, and Python 2.5+
 
+Installation
+============
+
+Usage
+=====
+
+Licence
+=======
+
 fishcrypt.py
 ------------
 Copyright 2011 Nam T. Nguyen (http://www.vithon.org/forum/Thread/show/54)
@@ -24,9 +33,3 @@ Copyright 2002 Michael Gilfix <mgilfix@eecs.tufts.edu>
 Released under GPL or Artistic Licence
 
 modified by trubo
-
-Installation
-============
-
-Usage
-=====
