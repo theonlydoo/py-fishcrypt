@@ -5,7 +5,7 @@ FiSH/Mircryption clone for HexChat in 100% Python
 
 * Encrypt/decrypt private conversations
 * Encrypt/decrypt channel conversations
-* Choose between EBC and CBC
+* Choose between ECB and CBC
 * Automatic DH key exchange (private conversations only)
 
 Installation
