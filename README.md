@@ -60,7 +60,7 @@ Released under the BSD license
 
 rewritten by trubo/segfault for irc.prooops.eu #py-fishcrypt trubo00@gmail.com
 
-fixed for HexChat by fladd <fladd@fladd.de>
+fixes by fladd <fladd@fladd.de>
 
 irccrypt module is copyright 2009 Bjorn Edstrom ( http://www.bjrn.se/ircsrp )
 with modification from Nam T. Nguyen and trubo
