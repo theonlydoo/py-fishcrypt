@@ -1,8 +1,9 @@
-Description
-===========
-FiSH/Mircryption clone for X-Chat in 100% Python
 
-Requirements: PyCrypto, and Python 2.5+
+FiSH/Mircryption clone for X-Chat in 100% Python
+================================================
+
+About
+=====
 
 Installation
 ============
