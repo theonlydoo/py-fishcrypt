@@ -26,7 +26,11 @@ Quickstart
 ----------
 
 ###Private conversations
-In a private chat window, type ``/setkey password`` to create the key 'password'. Every following message send in the chat window will be encrypted. Alternatively, a secret key can be created and exchanged automatically by typing ``/keyx``. To delete the key in the conversation with "Nick" type ``/delkey Nick``.
+In a private chat window, type ``/setkey password`` to create the key 'password'. Every following message send in the chat window will be encrypted.
+
+Alternatively, a secret key can be created and exchanged automatically by typing ``/keyx``.
+
+To delete the key in the conversation with "Nick" type ``/delkey Nick``.
 
 ###Channel conversations
 In a channel, type ``/setkey password`` to create the key 'password'. Every following message send in the channel will be encrypted. To delete the key for "#channel" type ``/delkey #channel``.
