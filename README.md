@@ -33,7 +33,9 @@ Alternatively, a secret key can be created and exchanged automatically by typing
 To delete the key in the conversation with "Nick" type ``/delkey Nick``.
 
 ###Channel conversations
-In a channel, type ``/setkey password`` to create the key 'password'. Every following message send in the channel will be encrypted. To delete the key for "#channel" type ``/delkey #channel``.
+In a channel, type ``/setkey password`` to create the key 'password'. Every following message send in the channel will be encrypted.
+
+To delete the key for "#channel" type ``/delkey #channel``.
 
 Commands
 --------
