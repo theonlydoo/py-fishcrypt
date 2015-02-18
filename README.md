@@ -36,8 +36,8 @@ In a channel, type ``/setkey password`` to create the key 'password'. Every foll
 
 To delete the key for "#channel" type ``/delkey #channel``.
 
-Commands
---------
+List of all commands
+--------------------
 ```
 SETKEY          set a new key for a nick or channel /SETKEY <nick>/#chan [new_key]
 KEYX            exchange a new pub key, /KEYX <nick>
