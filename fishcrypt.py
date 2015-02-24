@@ -974,8 +974,8 @@ class XChatCrypt:
             failcol = ""
 
             ## if decryption was possible check for invalid chars
+            action = False
             if sndmessage:
-                action = False
                 if sndmessage.startswith("\001ACTION"):
                     sndmessage = sndmessage.lstrip("\001ACTION")
                     action = True
