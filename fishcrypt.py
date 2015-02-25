@@ -16,6 +16,10 @@
 # with modification from Nam T. Nguyen and trubo
 #
 # Changelog:
+#   * 5.10
+#      + Plugin will now load correctly on Windows
+#      + Fixed bug that crashed the plugin in some cases
+
 #   * 5.00
 #      + Fixed compatibility for networks with identify-msg (e.g. freenode) in key exchange (fladd)
 #      + Added FiSHLiM unload (fladd)
@@ -192,7 +196,7 @@
 
 
 __module_name__ = 'fishcrypt'
-__module_version__ = '5.00'
+__module_version__ = '5.10'
 __module_description__ = 'fish encryption in pure python'
 
 ISBETA = ""
@@ -233,12 +237,21 @@ if isWindows:
     sep = "\\"
 
 ## append current path
-import inspect
-scriptname = inspect.currentframe().f_code.co_filename
+if isWindows:
+    # Try XChat
+    scriptname = os.getenv('APPDATA')+"\\XChat\\addons\\fishcrypt.py"
+    if not os.path.exists(scriptname):
+        # Try HexChat
+        scriptname = os.getenv('APPDATA')+"\\HexChat\\addons\\fishcrypt.py"
+        if not os.path.exists(scriptname):
+            # Try portable install
+            scriptname = sys.path[0]+"\\addons\\fishcrypt.py"
+else:
+    import inspect
+    scriptname = inspect.currentframe().f_code.co_filename
 script = "".join(scriptname.split(sep)[-1:])
 path = sep.join(scriptname.split(sep)[:-1])
 sys.path.insert(1,path)
-
 SCRIPTCHKSUM = hashlib.sha1(open(scriptname,'rb').read()).hexdigest()
 REQUIRESETUP = False
 
