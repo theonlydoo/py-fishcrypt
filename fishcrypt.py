@@ -16,6 +16,9 @@
 # with modification from Nam T. Nguyen and trubo
 #
 # Changelog:
+#   * 5.20
+#      + Added authentification hash for DH key exchange
+#
 #   * 5.10
 #      + Plugin will now load correctly on Windows
 #      + Fixed bug that crashed the plugin in some cases
@@ -196,7 +199,7 @@
 
 
 __module_name__ = 'fishcrypt'
-__module_version__ = '5.10'
+__module_version__ = '5.20'
 __module_description__ = 'fish encryption in pure python'
 
 ISBETA = ""
@@ -1441,7 +1444,10 @@ class XChatCrypt:
         self.__lock_proc(False)
         self.__KeyMap[id] = key
         print "DH1080 Init: %s on %s" % (target,network)
-        print "Key set to %r" % (key.key,)
+        #print "Key set to %r" % (key.key,)
+        fingerprint = hashlib.sha256(str(dh.public +
+                bytes2int(dh1080_b64decode(message.split(' ', 1)[1]))))
+        print "Key set (Authentication: %s)" %fingerprint.hexdigest()[:32]
         ## save key storage
         self.saveDB()
         return xchat.EAT_ALL
@@ -1460,7 +1466,10 @@ class XChatCrypt:
         key.key = dh1080_secret(key.dh)
         key.keyname = id
         print "DH1080 Finish: %s on %s" % (target,network)
-        print "Key set to %r" % (key.key,)
+        #print "Key set to %r" % (key.key,)
+        fingerprint = hashlib.sha256(str(key.dh.public +
+                bytes2int(dh1080_b64decode(message.split(' ', 1)[1]))))
+        print "Key set (Authentication: %s)" %fingerprint.hexdigest()[:32]
         ## save key storage
         self.saveDB()
         return xchat.EAT_ALL
@@ -2047,3 +2056,4 @@ else:
     loadObj = XChatCrypt()
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
