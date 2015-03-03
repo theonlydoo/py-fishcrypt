@@ -16,6 +16,9 @@
 # with modification from Nam T. Nguyen and trubo
 #
 # Changelog:
+#   * 5.30
+#      + Decrypt own messages (for https://github.com/TingPing/plugins/blob/master/HexChat/mymsg.py)
+#
 #   * 5.20
 #      + Added authentification hash for DH key exchange
 #
@@ -455,6 +458,7 @@ class XChatCrypt:
         self.__hooks.append(xchat.hook_print('Channel Message', self.inMessage, 'Channel Message',priority=xchat.PRI_HIGHEST))
         self.__hooks.append(xchat.hook_print('Private Message to Dialog', self.inMessage, 'Private Message to Dialog',priority=xchat.PRI_HIGHEST))
         self.__hooks.append(xchat.hook_print('Private Message', self.inMessage, 'Private Message',priority=xchat.PRI_HIGHEST))
+        self.__hooks.append(xchat.hook_print('Your Message', self.inMessage, 'Your Message',priority=xchat.PRI_HIGHEST))
         self.__hooks.append(xchat.hook_unload(self.__destroy))
         self.loadDB()
 
@@ -947,13 +951,12 @@ class XChatCrypt:
             self.emit_print("Notice Send",speaker,message,target=target)
             return xchat.EAT_XCHAT
         return xchat.EAT_NONE
-            
+    
     ## incoming messages
     def inMessage(self,word, word_eol, userdata):
         ## if message is allready processed ignore
         if self.__chk_proc() or len(word_eol) < 2:
             return xchat.EAT_PLUGIN
-
         speaker = word[0]
         message = word_eol[1]
         #print "DEBUG(INMsg): %r - %r - %r" % (word,word_eol,userdata)
@@ -1156,7 +1159,7 @@ class XChatCrypt:
                     if not targetTab and targetTab != xchat.get_context():
                         self.emit_print('Message Send',  "%s %s" % ("°"*(1+key.cbc_mode),target), message)
                     else:
-                        self.emit_print('Your Message',  nick, message,toContext=targetTab)
+                        elf.emit_print('Your Message',  nick, message,toContext=targetTab)
         return xchat.EAT_ALL
         
     def encrypt(self,key, msg):
