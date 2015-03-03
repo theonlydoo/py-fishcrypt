@@ -202,7 +202,7 @@
 
 
 __module_name__ = 'fishcrypt'
-__module_version__ = '5.20'
+__module_version__ = '5.30'
 __module_description__ = 'fish encryption in pure python'
 
 ISBETA = ""
