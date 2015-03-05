@@ -16,6 +16,9 @@
 # with modification from Nam T. Nguyen and trubo
 #
 # Changelog:
+#   * 5.31
+#      + Minor bugfix when sending messages
+#
 #   * 5.30
 #      + Decrypt own messages (for https://github.com/TingPing/plugins/blob/master/HexChat/mymsg.py)
 #
@@ -202,7 +205,7 @@
 
 
 __module_name__ = 'fishcrypt'
-__module_version__ = '5.30'
+__module_version__ = '5.31'
 __module_description__ = 'fish encryption in pure python'
 
 ISBETA = ""
@@ -1159,7 +1162,7 @@ class XChatCrypt:
                     if not targetTab and targetTab != xchat.get_context():
                         self.emit_print('Message Send',  "%s %s" % ("°"*(1+key.cbc_mode),target), message)
                     else:
-                        elf.emit_print('Your Message',  nick, message,toContext=targetTab)
+                        self.emit_print('Your Message',  nick, message,toContext=targetTab)
         return xchat.EAT_ALL
         
     def encrypt(self,key, msg):
